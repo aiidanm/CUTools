@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import PostcodePlotter from './components/postcodeplotter';
 import './App.css';
 
@@ -17,14 +17,14 @@ const tools = [
     title: 'Loan Calculator',
     description: 'Estimate monthly repayments for different loan amounts, terms, and interest rates.',
     svgIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="8" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="16" y2="21"></line><line x1="3" y1="8" x2="21" y2="8"></line><line x1="3" y1="16" x2="21" y2="16"></line></svg>`,
-    path: '/budget-planner' 
+    path: '/loan-calculator' 
   },
   {
     id: 3,
     title: 'Budget Planner',
     description: 'A simple and effective tool to help members manage their income and expenses.',
     svgIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`,
-    path: '/loan-calculator' 
+    path: '/budget-planner' 
   },
     {
     id: 4,
@@ -38,26 +38,46 @@ const tools = [
 
 
 
-const Header = () => (
-  <header className="header">
-    <div className="header-content">
-      <h1 className="header-title">Credit Union Tools</h1>
-      <p className="header-subtitle">by Aidan Murray</p>
-    </div>
-  </header>
-);
-
-const ToolTile = ({ title, description, svgIcon, path }) => (
-  <Link to={path} className="tool-tile-link">
-    <div className="tool-tile">
-      <div className="tile-image-container" dangerouslySetInnerHTML={{ __html: svgIcon }} />
-      <div>
-        <h3 className="tile-title">{title}</h3>
-        <p className="tile-description">{description}</p>
+const NavHeader = () => {
+  return (
+    <header className="nav-header">
+      <div className="logo-section">
+        <h1>CUTools</h1>
+        <span>by Aidan Murray</span>
       </div>
+      <nav className="nav-links">
+        <Link to="/">Home</Link>
+        <Link to="/postcode-plotter">Postcode Plotter</Link>
+        <Link to="/loan-calculator">Loan Calculator</Link>
+        <Link to="/budget-planner">Budget Planner</Link>
+        <Link to="/savings-tracker">Savings Tracker</Link>
+      </nav>
+    </header>
+  );
+};
+
+const ToolTile = ({ title, description, svgIcon, path }) => {
+  const isComingSoon = path !== '/postcode-plotter';
+
+  return (
+    <div className={`tool-tile-link ${isComingSoon ? 'coming-soon' : ''}`}>
+      {isComingSoon && (
+        <div className="coming-soon-overlay">
+          <span>Coming Soon</span>
+        </div>
+      )}
+      <Link to={isComingSoon ? '#' : path} className={`tool-tile-inner ${isComingSoon ? 'disabled' : ''}`} onClick={(e) => isComingSoon && e.preventDefault()}>
+        <div className="tool-tile">
+          <div className="tile-image-container" dangerouslySetInnerHTML={{ __html: svgIcon }} />
+          <div>
+            <h3 className="tile-title">{title}</h3>
+            <p className="tile-description">{description}</p>
+          </div>
+        </div>
+      </Link>
     </div>
-  </Link>
-);
+  );
+};
 
 const ToolGrid = () => (
   <div className="tool-grid">
@@ -75,7 +95,6 @@ const ToolGrid = () => (
 
 const Home = () => (
   <div className="app-container">
-    <Header />
     <main>
       <ToolGrid />
     </main>
@@ -84,12 +103,16 @@ const Home = () => (
 
 export default function App() {
   return (
-    <Router>
+    <>
+      <NavHeader />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/postcode-plotter" element={<PostcodePlotter />} />
+        <Route path="/loan-calculator" element={<div>Loan Calculator Coming Soon</div>} />
+        <Route path="/budget-planner" element={<div>Budget Planner Coming Soon</div>} />
+        <Route path="/savings-tracker" element={<div>Savings Tracker Coming Soon</div>} />
       </Routes>
-    </Router>
+    </>
   );
 }
 

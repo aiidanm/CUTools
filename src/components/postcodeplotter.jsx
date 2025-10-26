@@ -4,7 +4,7 @@ import Modal from "./popup";
 import "./PostcodeMapper.css";
 
 function PostcodePlotter() {
-const [postcodes, setPostcodes] = useState("");
+  const [postcodes, setPostcodes] = useState("");
   const [layerName, setLayerName] = useState("");
   const [layers, setLayers] = useState([]);
   const [selectedcolor, setSelectedColor] = useState("#3d9de6");
@@ -105,10 +105,11 @@ const [postcodes, setPostcodes] = useState("");
   };
 
   return (
-    <div className="app-container">
-      <Modal isOpen={openHowTo} onClose={() => setOpenHowTo(false)} />
-      
-      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+    <div className="postcode-mapper">
+      <div className="app-container">
+        <Modal isOpen={openHowTo} onClose={() => setOpenHowTo(false)} />
+        
+        <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-content">
           <div className="sidebar-header">
             <h1 className="mainName">Common bond map</h1>
@@ -227,6 +228,7 @@ const [postcodes, setPostcodes] = useState("");
         onUpdateLayer={handleUpdateLayer}
         onPostcodesChange={handlePostcodesChange}
       />
+    </div>
     </div>
   );
 }
