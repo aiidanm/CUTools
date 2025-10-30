@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "CUTools",
+  "name": "Cu Tools - A collection of utilities to help Credit Unions",
   "icons": [
     {
       "src": "favicon.ico",
